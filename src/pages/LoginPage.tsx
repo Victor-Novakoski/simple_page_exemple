@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { loginSchema } from '../utils/validators';
 
 /**
  * Propriedades aceitas pelo componente de login.
@@ -31,6 +32,16 @@ export default function LoginPage({ onLogin }: LoginProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Valida com Zod antes de tentar autenticar
+    const validation = loginSchema.safeParse({ cpf, password });
+
+    if (!validation.success) {
+      const firstError = validation.error.issues[0];
+      setError(firstError.message);
+      return;
+    }
+
     const result = onLogin(cpf, password);
     if (result.success && result.redirect) {
       // Limpa mensagem de erro e redireciona para a página apropriada
