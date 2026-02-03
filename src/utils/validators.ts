@@ -83,7 +83,7 @@ export const userSchema = z.object({
     .string()
     .min(3, "Nome deve ter pelo menos 3 caracteres")
     .max(100, "Nome muito longo"),
-  cpf: z.string().refine(validateCPF, "CPF inválido"),
+  cpf: z.string().min(1, "CPF é obrigatório"),
   militaryId: z
     .string()
     .min(5, "ID Militar deve ter pelo menos 5 caracteres")
@@ -120,7 +120,7 @@ export const registerSchema = z.object({
     .string()
     .min(3, "Nome deve ter pelo menos 3 caracteres")
     .max(100, "Nome muito longo"),
-  cpf: z.string().refine(validateCPF, "CPF inválido"),
+  cpf: z.string().min(1, "CPF é obrigatório"),
   militaryId: z
     .string()
     .min(5, "ID Militar deve ter pelo menos 5 caracteres")
@@ -149,7 +149,7 @@ export const registerSchema = z.object({
  * Schema para validação de login
  */
 export const loginSchema = z.object({
-  cpf: z.string().refine(validateCPF, "CPF inválido"),
+  cpf: z.string().min(1, "CPF é obrigatório"),
   password: z.string().min(1, "Senha é obrigatória"),
 });
 
