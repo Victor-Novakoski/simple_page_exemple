@@ -8,8 +8,59 @@ import BadgePage from './pages/BadgePage';
 import type { User } from './types';
 
 function App() {
+  // Define alguns usuários de exemplo para a área administrativa. Esses dados podem ser
+  // carregados de uma API no futuro; por enquanto são apenas mockados para mostrar
+  // a funcionalidade de edição. A senha é armazenada somente no front-end para fins de demonstração.
+  const initialUsers: User[] = [
+    {
+      id: 1,
+      name: 'SD EP NOVAKOSKI',
+      cpf: '12345678900',
+      militaryId: 'MG1234567',
+      password: 'senha123',
+      vehicle: {
+        type: 'carro',
+        model: 'JETTA',
+        color: 'BRANCO',
+        plate: 'FFG-8D03',
+        parkingNumber: '44-R',
+        titular: false,
+      },
+    },
+    {
+      id: 2,
+      name: 'TEN MORAES',
+      cpf: '98765432100',
+      militaryId: 'MG7654321',
+      password: 'senha456',
+      vehicle: {
+        type: 'carro',
+        model: 'FORD KA',
+        color: 'BRANCO',
+        plate: 'XYZ9E87',
+        parkingNumber: '10-T',
+        titular: true,
+      },
+    },
+    {
+      id: 3,
+      name: 'SGT SILVA',
+      cpf: '11122233344',
+      militaryId: 'MG1122334',
+      password: 'senha789',
+      vehicle: {
+        type: 'moto',
+        model: 'CB 500',
+        color: 'PRETO',
+        plate: 'DEF4G56',
+        parkingNumber: '22-M',
+        titular: true,
+      },
+    },
+  ];
+
   // Lista de usuários cadastrados no sistema (simulado localmente)
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>(initialUsers);
   // Usuário atualmente autenticado; null se não houver
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   // Flag que indica se o administrador está logado. Para fins de exemplo,
@@ -23,14 +74,17 @@ function App() {
    * currentUser com esse usuário.
    */
   const handleLogin = (cpf: string, password: string) => {
+    // Remove formatação do CPF para comparação
+    const cleanCpf = cpf.replace(/\D/g, '');
+
     // Verifica se é administrador
-    if (cpf === '00000000000' && password === 'admin') {
+    if (cleanCpf === '00000000000' && password === 'admin') {
       setAdminLogged(true);
       setCurrentUser(null);
       return { success: true, redirect: '/admin' };
     }
-    // Busca usuário existente
-    const found = users.find((u) => u.cpf === cpf && u.password === password);
+    // Busca usuário existente (compara CPF sem formatação)
+    const found = users.find((u) => u.cpf.replace(/\D/g, '') === cleanCpf && u.password === password);
     if (found) {
       setCurrentUser(found);
       setAdminLogged(false);

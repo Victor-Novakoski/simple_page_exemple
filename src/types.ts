@@ -4,7 +4,7 @@
 
 export interface Vehicle {
   /** Tipo de veículo: carro ou moto */
-  type: 'carro' | 'moto';
+  type: "carro" | "moto";
   /** Modelo do veículo (ex.: Corolla, CG 160) */
   model: string;
   /** Cor do veículo */
@@ -26,8 +26,12 @@ export interface User {
   name: string;
   /** CPF (usado para login) */
   cpf: string;
+  /** Identidade Militar */
+  militaryId: string;
   /** Senha (armazenada apenas no front-end para fins de demonstração) */
   password: string;
+  /** CNH do usuário (opcional; não será enviada ao back‑end nesta versão) */
+  cnh?: File;
   /** Dados do veículo associado ao usuário */
   vehicle: Vehicle;
 }
