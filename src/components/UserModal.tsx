@@ -93,6 +93,15 @@ export default function UserModal({ user, onClose, onSave }: UserModalProps) {
               />
             </label>
             <label className="block">
+              <span className="text-sm text-gray-300">ID Militar</span>
+              <input
+                type="text"
+                value={editUser.militaryId}
+                onChange={(e) => handleUserFieldChange('militaryId', e.target.value)}
+                className="mt-1 w-full bg-slate-800 border border-gray-600 text-gray-100 rounded-md p-2 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
+              />
+            </label>
+            <label className="block">
               <span className="text-sm text-gray-300">Senha</span>
               <div className="flex items-center space-x-2 mt-1">
                 <input

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -59,13 +59,24 @@ function App() {
     },
   ];
 
+  // Carrega usuários do localStorage ou usa os iniciais
+  const loadUsers = (): User[] => {
+    const stored = localStorage.getItem('users');
+    return stored ? JSON.parse(stored) : initialUsers;
+  };
+
   // Lista de usuários cadastrados no sistema (simulado localmente)
-  const [users, setUsers] = useState<User[]>(initialUsers);
+  const [users, setUsers] = useState<User[]>(loadUsers);
   // Usuário atualmente autenticado; null se não houver
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   // Flag que indica se o administrador está logado. Para fins de exemplo,
   // consideramos que o CPF "00000000000" e a senha "admin" correspondem ao admin.
   const [adminLogged, setAdminLogged] = useState(false);
+
+  // Salva usuários no localStorage sempre que a lista mudar
+  useEffect(() => {
+    localStorage.setItem('users', JSON.stringify(users));
+  }, [users]);
 
   /**
    * Manipula a autenticação de usuários ou administradores.
